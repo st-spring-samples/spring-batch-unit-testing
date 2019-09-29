@@ -21,13 +21,19 @@ public class TransactionBatchConfig {
 	@Autowired
 	private TransactionEntryWriter transactionEntryWriter;
 
+	@Autowired
+	private JobBuilderFactory jobBuilderFactory;
+
+	@Autowired
+	private StepBuilderFactory stepBuilderFactory;
+
 	@Bean
-	public Job transactionProcessingJob(JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory) {
-		return jobBuilderFactory.get("transactionProcessingJob").start(importStep(stepBuilderFactory)).build();
+	public Job transactionProcessingJob() {
+		return jobBuilderFactory.get("transactionProcessingJob").start(importStep()).build();
 	}
 
 	@Bean
-	public Step importStep(StepBuilderFactory stepBuilderFactory) {
+	public Step importStep() {
 		return stepBuilderFactory.get("transactionImportStep").<TransactionEntry, TransactionEntry>chunk(1)
 				.reader(transactionFileReader()).writer(transactionEntryWriter).build();
 	}
