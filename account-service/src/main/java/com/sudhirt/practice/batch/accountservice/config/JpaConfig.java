@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @Configuration
 @EnableJpaRepositories(basePackages = "com.sudhirt.practice.batch.accountservice")
 public class JpaConfig {
+
 }

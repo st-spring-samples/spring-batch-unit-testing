@@ -25,14 +25,19 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Transaction {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_seq")
-    private Long id;
-    private LocalDate transactionDate;
-    private Double transactionAmount;
-    @Enumerated(EnumType.STRING)
-    private TransactionType transactionType;
-    @ManyToOne
-    @JoinColumn(name = "account_number")
-    private Account account;
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_seq")
+	private Long id;
+
+	private LocalDate transactionDate;
+
+	private Double transactionAmount;
+
+	@Enumerated(EnumType.STRING)
+	private TransactionType transactionType;
+
+	@ManyToOne
+	@JoinColumn(name = "account_number")
+	private Account account;
+
 }

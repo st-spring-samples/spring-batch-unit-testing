@@ -20,12 +20,16 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Account {
 
-    @Id
-    private String accountNumber;
-    @Column(nullable = false)
-    private Double balance;
-    @Column(nullable = true)
-    private LocalDate lastTransactionDate;
-    @OneToMany(mappedBy = "account")
-    private List<Transaction> transactions;
+	@Id
+	private String accountNumber;
+
+	@Column(nullable = false)
+	private Double balance;
+
+	@Column(nullable = true)
+	private LocalDate lastTransactionDate;
+
+	@OneToMany(mappedBy = "account")
+	private List<Transaction> transactions;
+
 }

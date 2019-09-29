@@ -17,11 +17,16 @@ import lombok.NoArgsConstructor;
 @Entity
 public class TransactionEntry {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_entry_seq")
-    private Long id;
-    private String accountNo;
-    private String transactionType;
-    private String amount;
-    private String transactionDate;
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_entry_seq")
+	private Long id;
+
+	private String accountNo;
+
+	private String transactionType;
+
+	private String amount;
+
+	private String transactionDate;
+
 }

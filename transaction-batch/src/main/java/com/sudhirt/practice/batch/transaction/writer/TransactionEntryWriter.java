@@ -14,16 +14,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class TransactionEntryWriter implements ItemWriter<TransactionEntry> {
 
-    private TransactionEntryRepository repository;
+	private TransactionEntryRepository repository;
 
-    @Autowired
-    public TransactionEntryWriter(TransactionEntryRepository repository) {
-        this.repository = repository;
-    }
+	@Autowired
+	public TransactionEntryWriter(TransactionEntryRepository repository) {
+		this.repository = repository;
+	}
 
-    @Override
-    @Transactional
-    public void write(List<? extends TransactionEntry> items) throws Exception {
-        repository.saveAll(items);
-    }
+	@Override
+	@Transactional
+	public void write(List<? extends TransactionEntry> items) throws Exception {
+		repository.saveAll(items);
+	}
+
 }

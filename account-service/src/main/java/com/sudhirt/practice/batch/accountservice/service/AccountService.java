@@ -16,41 +16,45 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccountService {
 
-    private TransactionRepository transactionRepository;
-    private AccountRepository accountRepository;
+	private TransactionRepository transactionRepository;
 
-    @Autowired
-    AccountService(TransactionRepository transactionRepository, AccountRepository accountRepository) {
-        this.transactionRepository = transactionRepository;
-        this.accountRepository = accountRepository;
-    }
+	private AccountRepository accountRepository;
 
-    public Account get(String accountNumber) {
-        return accountRepository.findById(accountNumber).orElseThrow(AccountNotFoundException::new);
-    }
+	@Autowired
+	AccountService(TransactionRepository transactionRepository, AccountRepository accountRepository) {
+		this.transactionRepository = transactionRepository;
+		this.accountRepository = accountRepository;
+	}
 
-    @Transactional
-    public void addTransaction(Transaction transaction) {
-        Account account = get(transaction.getAccount().getAccountNumber());
-        transactionRepository.save(transaction);
-        if (transaction.getTransactionType() == TransactionType.CREDIT) {
-            credit(account, transaction.getTransactionAmount());
-        } else if (transaction.getTransactionType() == TransactionType.DEBIT) {
-            debit(account, transaction.getTransactionAmount());
-        }
-        account.setLastTransactionDate(transaction.getTransactionDate());
-        accountRepository.save(account);
-    }
+	public Account get(String accountNumber) {
+		return accountRepository.findById(accountNumber).orElseThrow(AccountNotFoundException::new);
+	}
 
-    private void credit(Account account, Double creditAmount) {
-        account.setBalance(account.getBalance() + creditAmount);
-    }
+	@Transactional
+	public void addTransaction(Transaction transaction) {
+		Account account = get(transaction.getAccount().getAccountNumber());
+		transactionRepository.save(transaction);
+		if (transaction.getTransactionType() == TransactionType.CREDIT) {
+			credit(account, transaction.getTransactionAmount());
+		}
+		else if (transaction.getTransactionType() == TransactionType.DEBIT) {
+			debit(account, transaction.getTransactionAmount());
+		}
+		account.setLastTransactionDate(transaction.getTransactionDate());
+		accountRepository.save(account);
+	}
 
-    private void debit(Account account, Double debitAmount) {
-        if (account.getBalance() >= debitAmount) {
-            account.setBalance(account.getBalance() - debitAmount);
-        } else {
-            throw new InsufficientBalanceException("Insufficient Balance");
-        }
-    }
+	private void credit(Account account, Double creditAmount) {
+		account.setBalance(account.getBalance() + creditAmount);
+	}
+
+	private void debit(Account account, Double debitAmount) {
+		if (account.getBalance() >= debitAmount) {
+			account.setBalance(account.getBalance() - debitAmount);
+		}
+		else {
+			throw new InsufficientBalanceException("Insufficient Balance");
+		}
+	}
+
 }

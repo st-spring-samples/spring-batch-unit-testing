@@ -19,16 +19,17 @@ import org.springframework.test.context.junit4.SpringRunner;
 @Transactional
 public class TransactionBatchTests {
 
-    @Autowired
-    private JobLauncherTestUtils jobLauncherTestUtils;
+	@Autowired
+	private JobLauncherTestUtils jobLauncherTestUtils;
 
-    @Autowired
-    private TransactionEntryRepository transactionEntryRepository;
+	@Autowired
+	private TransactionEntryRepository transactionEntryRepository;
 
-    @Test
-    public void testJob() throws Exception {
-        JobExecution jobExecution = jobLauncherTestUtils.launchJob();
-        assertThat("COMPLETED").isEqualTo(jobExecution.getExitStatus().getExitCode());
-        assertThat(10).isEqualTo(transactionEntryRepository.count());
-    }
+	@Test
+	public void testJob() throws Exception {
+		JobExecution jobExecution = jobLauncherTestUtils.launchJob();
+		assertThat("COMPLETED").isEqualTo(jobExecution.getExitStatus().getExitCode());
+		assertThat(10).isEqualTo(transactionEntryRepository.count());
+	}
+
 }
