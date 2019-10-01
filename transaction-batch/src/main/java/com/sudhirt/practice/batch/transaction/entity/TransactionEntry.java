@@ -29,4 +29,6 @@ public class TransactionEntry {
 
 	private String transactionDate;
 
+	private String status;
+
 }

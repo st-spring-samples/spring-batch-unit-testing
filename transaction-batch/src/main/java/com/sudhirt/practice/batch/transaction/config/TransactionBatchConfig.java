@@ -5,6 +5,8 @@ import java.util.Map;
 
 import com.sudhirt.practice.batch.accountservice.entity.Transaction;
 import com.sudhirt.practice.batch.transaction.entity.TransactionEntry;
+import com.sudhirt.practice.batch.transaction.listener.StepListener;
+import com.sudhirt.practice.batch.transaction.listener.TransactionEntryProcessListener;
 import com.sudhirt.practice.batch.transaction.processor.TransactionEntryProcessor;
 import com.sudhirt.practice.batch.transaction.repository.TransactionEntryRepository;
 import com.sudhirt.practice.batch.transaction.writer.TransactionEntryWriter;
@@ -44,6 +46,9 @@ public class TransactionBatchConfig {
 	private TransactionEntryProcessor transactionEntryProcessor;
 
 	@Autowired
+	private TransactionEntryProcessListener transactionEntryProcessListener;
+
+	@Autowired
 	private TransactionWriter transactionWriter;
 
 	@Bean
@@ -72,7 +77,8 @@ public class TransactionBatchConfig {
 	@Bean
 	public Step processStep() {
 		return stepBuilderFactory.get("transactionProcessStep").<TransactionEntry, Transaction>chunk(1)
-				.reader(transactionItemReader()).processor(transactionEntryProcessor).writer(transactionWriter).build();
+				.reader(transactionItemReader()).processor(transactionEntryProcessor)
+				.listener(transactionEntryProcessListener).writer(transactionWriter).listener(stepListener()).build();
 	}
 
 	@Bean
@@ -84,6 +90,11 @@ public class TransactionBatchConfig {
 		sorts.put("id", Direction.ASC);
 		reader.setSort(sorts);
 		return reader;
+	}
+
+	@Bean
+	public StepListener stepListener() {
+		return new StepListener();
 	}
 
 }
