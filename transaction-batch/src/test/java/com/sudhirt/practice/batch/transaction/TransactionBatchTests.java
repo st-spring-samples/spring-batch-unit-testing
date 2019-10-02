@@ -68,7 +68,18 @@ public class TransactionBatchTests {
 		assertThat(transactionEntryRepository.findByStatus("FAILURE").size()).isEqualTo(3);
 		assertThat(transactionEntryRepository.findByStatus("SUCCESS").size()).isEqualTo(6);
 		assertThat(transactionRepository.count()).isEqualTo(6);
-		assertThat(accountRepository.count()).isEqualTo(1);
+	}
+
+	@Test
+	public void should_resume_when_previous_run_status_is_failed() throws Exception {
+		createAccount("1234568");
+		JobExecution jobExecution = jobLauncherTestUtils.launchJob();
+		assertThat(jobExecution.getExitStatus().getExitCode()).isEqualTo("FAILED");
+		createAccount("1234567");
+		JobExecution newExecution = jobLauncherTestUtils.launchJob(jobExecution.getJobParameters());
+		assertThat(newExecution.getExitStatus().getExitCode()).isEqualTo("COMPLETED");
+		assertThat(transactionEntryRepository.findByStatus("SUCCESS").size()).isEqualTo(9);
+		assertThat(transactionRepository.count()).isEqualTo(9);
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.sudhirt.practice.batch.transaction.config;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.sudhirt.practice.batch.accountservice.entity.Transaction;
@@ -16,6 +17,7 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.data.RepositoryItemReader;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
@@ -53,7 +55,8 @@ public class TransactionBatchConfig {
 
 	@Bean
 	public Job transactionProcessingJob() {
-		return jobBuilderFactory.get("transactionProcessingJob").start(importStep()).next(processStep()).build();
+		return jobBuilderFactory.get("transactionProcessingJob").incrementer(new RunIdIncrementer()).flow(importStep())
+				.next(processStep()).end().build();
 	}
 
 	@Bean
@@ -78,14 +81,16 @@ public class TransactionBatchConfig {
 	public Step processStep() {
 		return stepBuilderFactory.get("transactionProcessStep").<TransactionEntry, Transaction>chunk(1)
 				.reader(transactionItemReader()).processor(transactionEntryProcessor)
-				.listener(transactionEntryProcessListener).writer(transactionWriter).listener(stepListener()).build();
+				.listener(transactionEntryProcessListener).writer(transactionWriter).listener(stepListener())
+				.allowStartIfComplete(true).build();
 	}
 
 	@Bean
 	public RepositoryItemReader<TransactionEntry> transactionItemReader() {
 		RepositoryItemReader<TransactionEntry> reader = new RepositoryItemReader<>();
 		reader.setRepository(transactionEntryRepository);
-		reader.setMethodName("findAll");
+		reader.setMethodName("findByStatusIn");
+		reader.setArguments(List.of(List.of("NEW", "IN_PROGRESS", "FAILURE")));
 		Map<String, Sort.Direction> sorts = new HashMap<>();
 		sorts.put("id", Direction.ASC);
 		reader.setSort(sorts);

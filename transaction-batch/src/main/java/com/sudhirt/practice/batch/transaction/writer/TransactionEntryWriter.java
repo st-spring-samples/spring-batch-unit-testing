@@ -24,6 +24,7 @@ public class TransactionEntryWriter implements ItemWriter<TransactionEntry> {
 	@Override
 	@Transactional
 	public void write(List<? extends TransactionEntry> items) throws Exception {
+		items.forEach(item -> item.setStatus("NEW"));
 		repository.saveAll(items);
 	}
 
