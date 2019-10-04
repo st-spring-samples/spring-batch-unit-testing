@@ -1,0 +1,4 @@
+accountNo,transactionType,amount,transactionDate
+1234567,CREDIT,1200,
+1234567,DEBIT,200,31/03/2019
+1234567,DEBIT,400,30/06/2019

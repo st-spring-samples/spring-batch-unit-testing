@@ -12,6 +12,12 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>account-service</name>
 
+	<properties>
+		<sonar.exclusions>
+			**/AccountServiceApplication.java
+		</sonar.exclusions>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

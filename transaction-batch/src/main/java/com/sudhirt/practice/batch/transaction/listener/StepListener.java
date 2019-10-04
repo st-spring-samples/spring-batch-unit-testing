@@ -8,7 +8,7 @@ public class StepListener extends StepExecutionListenerSupport {
 
 	@Override
 	public ExitStatus afterStep(StepExecution stepExecution) {
-		if (stepExecution.getFilterCount() > 0) {
+		if (stepExecution.getFilterCount() > 0 || stepExecution.getSkipCount() > 0) {
 			return ExitStatus.FAILED;
 		}
 		return null;

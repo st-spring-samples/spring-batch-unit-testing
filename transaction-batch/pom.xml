@@ -13,7 +13,9 @@
 	<name>transaction-batch</name>
 
 	<properties>
-		<java.version>11</java.version>
+		<sonar.exclusions>
+			**/TransactionBatchApplication.java
+		</sonar.exclusions>
 	</properties>
 
 	<dependencies>

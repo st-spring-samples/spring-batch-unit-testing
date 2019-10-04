@@ -32,7 +32,10 @@ public class TransactionEntryProcessListener implements ItemProcessListener<Tran
 	}
 
 	@Override
+	@Transactional(value = TxType.REQUIRES_NEW)
 	public void onProcessError(TransactionEntry item, Exception e) {
+		item.setStatus("FAILURE");
+		transactionEntryRepository.save(item);
 	}
 
 }

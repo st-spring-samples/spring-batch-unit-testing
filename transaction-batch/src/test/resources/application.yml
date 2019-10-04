@@ -4,4 +4,3 @@ spring:
       enabled: false
   jpa:
     generate-ddl: true
-    show-sql: true
