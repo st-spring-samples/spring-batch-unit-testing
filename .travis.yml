@@ -1,0 +1,19 @@
+language: java
+sudo: false
+
+jdk:
+  - openjdk11
+
+cache:
+  directories:
+  - "$HOME/.m2/repository"
+  - "$HOME/.sonar/cache"
+
+addons:
+  sonarcloud:
+    organization: st-spring-batch-samples
+    token:
+      secure: ${SONAR_TOKEN}
+
+script:
+  - mvn org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
