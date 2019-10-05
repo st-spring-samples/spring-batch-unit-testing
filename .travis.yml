@@ -11,7 +11,7 @@ cache:
 
 addons:
   sonarcloud:
-    organization: st-spring-batch-samples
+    organization: st-spring-samples
     token:
       secure: ${SONAR_TOKEN}
 

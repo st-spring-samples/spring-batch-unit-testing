@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.com/st-spring-batch-samples/unit-testing.svg?branch=master)](https://travis-ci.com/st-spring-batch-samples/unit-testing)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=st-spring-batch-samples_unit-testing&metric=alert_status)](https://sonarcloud.io/dashboard?id=st-spring-batch-samples_unit-testing)
+[![Build Status](https://travis-ci.com/st-spring-samples/spring-batch-unit-testing.svg?branch=master)](https://travis-ci.com/st-spring-samples/spring-batch-unit-testing)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=com.sudhirt.practice.batch%3Aspring-batch-unit-test&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.sudhirt.practice.batch%3Aspring-batch-unit-test)
 # Spring batch - unit testing
 Sample project that demonstrates unit testing for batch job built using Spring Batch.
 
