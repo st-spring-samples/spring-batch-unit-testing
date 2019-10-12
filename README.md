@@ -11,7 +11,7 @@ Sample project that demonstrates unit testing for batch job built using Spring B
 ## How to start
 Clone this repo
 ```
-git clone git@github.com:st-spring-batch-samples/unit-testing.git
+git clone git@github.com:st-spring-samples/spring-batch-unit-testing.git
 ```
 
 ## Run unit tests
