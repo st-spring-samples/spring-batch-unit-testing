@@ -2,8 +2,6 @@ package com.sudhirt.practice.batch.transaction.config;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import com.sudhirt.practice.batch.accountservice.entity.Transaction;
 import com.sudhirt.practice.batch.transaction.entity.TransactionEntry;
 import com.sudhirt.practice.batch.transaction.listener.StepListener;
@@ -13,7 +11,6 @@ import com.sudhirt.practice.batch.transaction.processor.TransactionEntryProcesso
 import com.sudhirt.practice.batch.transaction.repository.TransactionEntryRepository;
 import com.sudhirt.practice.batch.transaction.writer.TransactionEntryWriter;
 import com.sudhirt.practice.batch.transaction.writer.TransactionWriter;
-
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -75,7 +72,7 @@ public class TransactionBatchConfig {
 	@StepScope
 	public FlatFileItemReader<TransactionEntry> transactionFileReader(
 			@Value("#{jobParameters[pathToTransactionFile]}") String pathToTransactionFile) {
-		BeanWrapperFieldSetMapper<TransactionEntry> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
+		var fieldSetMapper = new BeanWrapperFieldSetMapper<TransactionEntry>();
 		fieldSetMapper.setTargetType(TransactionEntry.class);
 		return new FlatFileItemReaderBuilder<TransactionEntry>().name("transactionReader")
 				.resource(new ClassPathResource(pathToTransactionFile)).delimited()
@@ -94,11 +91,11 @@ public class TransactionBatchConfig {
 
 	@Bean
 	public RepositoryItemReader<TransactionEntry> transactionItemReader() {
-		RepositoryItemReader<TransactionEntry> reader = new RepositoryItemReader<>();
+		var reader = new RepositoryItemReader<TransactionEntry>();
 		reader.setRepository(transactionEntryRepository);
 		reader.setMethodName("findByStatusIn");
 		reader.setArguments(List.of(List.of("NEW", "IN_PROGRESS", "FAILURE")));
-		Map<String, Sort.Direction> sorts = new HashMap<>();
+		var sorts = new HashMap<String, Sort.Direction>();
 		sorts.put("id", Direction.ASC);
 		reader.setSort(sorts);
 		return reader;

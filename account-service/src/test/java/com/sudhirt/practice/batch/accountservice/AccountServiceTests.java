@@ -33,36 +33,36 @@ public class AccountServiceTests {
 	private AccountService accountService;
 
 	private Account createAccount(Double balance) {
-		Account account = Account.builder().accountNumber("123456").balance(balance).build();
+		var account = Account.builder().accountNumber("123456").balance(balance).build();
 		return accountRepository.save(account);
 	}
 
 	@Test
 	public void account_balance_should_be_increased_when_credit_transaction_is_added() {
 		createAccount(0d);
-		Transaction transaction = Transaction.builder().account(Account.builder().accountNumber("123456").build())
+		var transaction = Transaction.builder().account(Account.builder().accountNumber("123456").build())
 				.transactionType(TransactionType.CREDIT).transactionAmount(100d).transactionDate(LocalDate.now())
 				.build();
 		accountService.addTransaction(transaction);
-		Account account = accountRepository.getOne("123456");
+		var account = accountRepository.getOne("123456");
 		assertThat(account.getBalance()).isEqualTo(100d);
 	}
 
 	@Test
 	public void account_balance_should_be_decreased_when_credit_transaction_is_added() {
 		createAccount(100d);
-		Transaction transaction = Transaction.builder().account(Account.builder().accountNumber("123456").build())
+		var transaction = Transaction.builder().account(Account.builder().accountNumber("123456").build())
 				.transactionType(TransactionType.DEBIT).transactionAmount(100d).transactionDate(LocalDate.now())
 				.build();
 		accountService.addTransaction(transaction);
-		Account account = accountRepository.getOne("123456");
+		var account = accountRepository.getOne("123456");
 		assertThat(account.getBalance()).isEqualTo(0d);
 	}
 
 	@Test
 	public void should_throw_InsufficientBalanceException_when_debit_amount_is_more_than_balance() {
 		createAccount(100d);
-		Transaction transaction = Transaction.builder().account(Account.builder().accountNumber("123456").build())
+		var transaction = Transaction.builder().account(Account.builder().accountNumber("123456").build())
 				.transactionType(TransactionType.DEBIT).transactionAmount(101d).transactionDate(LocalDate.now())
 				.build();
 		assertThatExceptionOfType(InsufficientBalanceException.class)
@@ -71,7 +71,7 @@ public class AccountServiceTests {
 
 	@Test
 	public void should_throw_AccountNotFoundException_when_account_does_not_exist() {
-		Transaction transaction = Transaction.builder().account(Account.builder().accountNumber("234567").build())
+		var transaction = Transaction.builder().account(Account.builder().accountNumber("234567").build())
 				.transactionType(TransactionType.DEBIT).transactionAmount(101d).transactionDate(LocalDate.now())
 				.build();
 		assertThatExceptionOfType(AccountNotFoundException.class)

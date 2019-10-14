@@ -32,7 +32,7 @@ public class AccountService {
 
 	@Transactional
 	public void addTransaction(Transaction transaction) {
-		Account account = get(transaction.getAccount().getAccountNumber());
+		var account = get(transaction.getAccount().getAccountNumber());
 		transactionRepository.save(transaction);
 		if (transaction.getTransactionType() == TransactionType.CREDIT) {
 			credit(account, transaction.getTransactionAmount());
