@@ -2,11 +2,8 @@ package com.sudhirt.practice.batch.accountservice;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-
 import java.time.LocalDate;
-
 import javax.transaction.Transactional;
-
 import com.sudhirt.practice.batch.accountservice.constants.TransactionType;
 import com.sudhirt.practice.batch.accountservice.entity.Account;
 import com.sudhirt.practice.batch.accountservice.entity.Transaction;
@@ -14,14 +11,10 @@ import com.sudhirt.practice.batch.accountservice.exception.AccountNotFoundExcept
 import com.sudhirt.practice.batch.accountservice.exception.InsufficientBalanceException;
 import com.sudhirt.practice.batch.accountservice.repository.AccountRepository;
 import com.sudhirt.practice.batch.accountservice.service.AccountService;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
 public class AccountServiceTests {
